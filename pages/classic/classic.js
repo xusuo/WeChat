@@ -9,6 +9,11 @@ Page({
   /**
    * 页面的初始数据
    */
+
+  properties: {
+    cid: Number,
+    type: Number
+  },
   data: {
     classic: null,
     first: false,
@@ -17,10 +22,38 @@ Page({
     likeStatus:false
   },
 
+  attached(options) {
+    const cid = this.properties.cid
+    const type = this.properties.type
+    console.log(cid)
+    if (!cid) {
+      classicModel.getLatest((res) => {
+        this.setData({
+          classic: res,
+          likeCount: res.fav_nums,
+          likeStatus: res.like_status
+        })
+      })
+    }
+    else{
+      classicModel.getById(cid, type,res=>{
+        this._getLikeStatus(res.id, res.type)
+        this.setData({
+          classic: res,
+          latest: classicModel.isLatest(res.index),
+          first: classicModel.isFirst(res.index)
+        }) 
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const cid = this.properties.cid
+    const type = this.properties.type
+    console.log(6666)
     classicModel.getLatest((res) => {
       this.setData({
         classic: res,
@@ -39,14 +72,6 @@ Page({
   },
   onPrev: function (event) {
     this._updataClassic('previous')
-    // let index = this.data.classic.index
-    // classicModel.getPrev(index, (res) => {
-    //   this.setData({
-    //     classic: res,
-    //     first: classicModel.isFirst(res.index),
-    //     latest: classicModel.isLatest(res.index)
-    //   })
-    // })
   },
 
   _updataClassic: function (nextOrPrevious) {

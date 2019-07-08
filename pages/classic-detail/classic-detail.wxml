@@ -1,0 +1,9 @@
+<view class="container">
+    <view class="header">
+        <epsoide-cmp class="epsoide" index="{{classic.index}}"></epsoide-cmp>
+        <like-cmp bind:like="onLike" class="like" like="{{likeStatus}}" count="{{likeCount}}" />
+    </view>
+    <movie-cmp wx:if="{{classic.type == 100}}" content="{{classic.content}}" img="{{classic.image}}"></movie-cmp>
+    <music-cmp wx:if="{{classic.type == 200}}" content="{{classic.content}}" img="{{classic.image}}" title="{{classic.title}}" src="{{classic.url}}"></music-cmp>
+    <essay-cmp wx:if="{{classic.type == 300}}" content="{{classic.content}}" img="{{classic.image}}"></essay-cmp>
+</view>

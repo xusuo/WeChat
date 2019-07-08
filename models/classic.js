@@ -58,6 +58,14 @@ class ClassicModel extends HTTP {
         this.request(params)
     }
 
+    getById(cid, type, success) {
+        let params = {
+            url: `classic/${type}/${cid}`,
+            success: success
+        }
+        this.request(params)
+    }
+
     _setLatestIndex(index) {
         wx.setStorageSync('latest', index)
     }
